@@ -1,4 +1,9 @@
 /* Variáveis CSS para cores e fontes */
+/* No seu style.css, adicione no topo */
+html {
+    background-color: var(--galaxy-end-color); /* Ou um preto puro #000 */
+    scroll-behavior: smooth;
+}
 :root {
     --primary-color: #007bff; /* Azul para destaque */
     --secondary-color: #6c757d; /* Cinza para elementos secundários */
@@ -9,6 +14,11 @@
     --accent-color: #8be9fd; /* Cor de destaque para animações */
     --border-color: #4a4a6e; /* Cor para bordas/divisores */
     --font-family: 'Poppins', sans-serif;
+
+    /* Novas variáveis para o gradiente da galáxia */
+    --galaxy-start-color: #3b006b; /* Roxo escuro */
+    --galaxy-mid-color: #6a0dad; /* Roxo um pouco mais claro */
+    --galaxy-end-color: #000000; /* Preto */
 }
 
 /* Reset Básico */
@@ -26,9 +36,40 @@ body {
     font-family: var(--font-family);
     line-height: 1.6;
     color: var(--text-color-light);
-    background-color: var(--background-dark);
+    /* Removido background-color: var(--background-dark); */
     overflow-x: hidden; /* Evita scroll horizontal indesejado */
+
+    /* Novo Fundo de Galáxia com Gradiente */
+    background: linear-gradient(180deg, var(--galaxy-start-color) 0%, var(--galaxy-mid-color) 50%, var(--galaxy-end-color) 100%);
+    background-attachment: fixed; /* Fixa o fundo enquanto rola o conteúdo */
+    position: relative; /* Para posicionar as estrelas */
+    min-height: 100vh; /* Garante que o body ocupe a tela inteira */
 }
+
+/* Estrelas da Galáxia */
+body::before {
+    content: '';
+    position: fixed; /* Fica fixo na tela */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Fica abaixo do conteúdo */
+    background: transparent;
+    /* Adicionado no JS para gerar as estrelas */
+    animation: twinkle 60s infinite linear; /* Animação suave das estrelas */
+}
+
+/* Keyframes para a animação das estrelas */
+@keyframes twinkle {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -10000px -10000px; /* Grande valor para simular movimento contínuo */
+    }
+}
+
 
 .container {
     max-width: 1200px;
@@ -163,6 +204,7 @@ body {
 section {
     padding: 100px 0;
     position: relative; /* Para efeitos de fundo ou paralaxe */
+    z-index: 1; /* Garante que o conteúdo fique acima das estrelas */
 }
 
 .section-title {
@@ -247,7 +289,7 @@ section {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-light) 100%);
+    /* Removido background: linear-gradient... */
     position: relative;
     overflow: hidden; /* Para partículas ou fundos animados com JS */
 }
