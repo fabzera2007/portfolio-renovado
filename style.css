@@ -1,9 +1,4 @@
 /* Variáveis CSS para cores e fontes */
-/* No seu style.css, adicione no topo */
-html {
-    background-color: var(--galaxy-end-color); /* Ou um preto puro #000 */
-    scroll-behavior: smooth;
-}
 :root {
     --primary-color: #007bff; /* Azul para destaque */
     --secondary-color: #6c757d; /* Cinza para elementos secundários */
@@ -15,10 +10,10 @@ html {
     --border-color: #4a4a6e; /* Cor para bordas/divisores */
     --font-family: 'Poppins', sans-serif;
 
-    /* Novas variáveis para o gradiente da galáxia */
-    --galaxy-start-color: #3b006b; /* Roxo escuro */
-    --galaxy-mid-color: #6a0dad; /* Roxo um pouco mais claro */
-    --galaxy-end-color: #000000; /* Preto */
+    /* Novas variáveis para o gradiente da galáxia (cores iniciais para o JS animar) */
+    --galaxy-color-1: #3b006b; /* Roxo escuro */
+    --galaxy-color-2: #6a0dad; /* Roxo um pouco mais claro */
+    --galaxy-color-3: #000000; /* Preto */
 }
 
 /* Reset Básico */
@@ -30,23 +25,27 @@ html {
 
 html {
     scroll-behavior: smooth; /* Rolagem suave ao clicar em links */
+    background-color: var(--galaxy-color-3); /* Começa com o preto para evitar flashes brancos */
 }
 
 body {
     font-family: var(--font-family);
     line-height: 1.6;
     color: var(--text-color-light);
-    /* Removido background-color: var(--background-dark); */
-    overflow-x: hidden; /* Evita scroll horizontal indesejado */
-
-    /* Novo Fundo de Galáxia com Gradiente */
-    background: linear-gradient(180deg, var(--galaxy-start-color) 0%, var(--galaxy-mid-color) 50%, var(--galaxy-end-color) 100%);
-    background-attachment: fixed; /* Fixa o fundo enquanto rola o conteúdo */
+    /* O background será definido e animado via JavaScript */
     position: relative; /* Para posicionar as estrelas */
     min-height: 100vh; /* Garante que o body ocupe a tela inteira */
+    opacity: 0; /* Começa invisível para evitar o piscar */
+    transition: opacity 1s ease-in; /* Transição suave para aparecer */
+    overflow-x: hidden; /* Evita scroll horizontal indesejado */
 }
 
-/* Estrelas da Galáxia */
+/* Classe para o body aparecer após o carregamento */
+body.loaded {
+    opacity: 1;
+}
+
+/* Estrelas da Galáxia (o JS vai gerar o background-image, o CSS vai animar o background-position) */
 body::before {
     content: '';
     position: fixed; /* Fica fixo na tela */
@@ -56,11 +55,11 @@ body::before {
     height: 100%;
     z-index: -1; /* Fica abaixo do conteúdo */
     background: transparent;
-    /* Adicionado no JS para gerar as estrelas */
+    background-size: 2000px 2000px; /* Tamanho maior para o fundo das estrelas para o efeito de movimento */
     animation: twinkle 60s infinite linear; /* Animação suave das estrelas */
 }
 
-/* Keyframes para a animação das estrelas */
+/* Keyframes para a animação das estrelas (movimento de fundo) */
 @keyframes twinkle {
     from {
         background-position: 0 0;
@@ -70,16 +69,10 @@ body::before {
     }
 }
 
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
+/* O restante do seu CSS permanece o mesmo */
 /* --- Cabeçalho e Navegação --- */
 .header {
-    background-color: rgba(26, 26, 46, 0.9); /* Fundo semi-transparente */
+    background-color: rgba(26, 26, 46, 0.9);
     padding: 1rem 0;
     position: fixed;
     width: 100%;
@@ -87,7 +80,7 @@ body::before {
     left: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s ease; /* Efeito de scroll no JS */
+    transition: background-color 0.3s ease;
 }
 
 .header.scrolled {
@@ -143,12 +136,12 @@ body::before {
 }
 
 .nav-links a:hover::after,
-.nav-links a.active::after { /* Para indicar a seção atual com JS */
+.nav-links a.active::after {
     width: 100%;
 }
 
 .menu-toggle {
-    display: none; /* Escondido por padrão, para mobile */
+    display: none;
     flex-direction: column;
     cursor: pointer;
 }
@@ -161,7 +154,6 @@ body::before {
     transition: all 0.3s ease;
 }
 
-/* Responsividade do Menu */
 @media (max-width: 768px) {
     .nav-links {
         display: none;
@@ -169,7 +161,7 @@ body::before {
         width: 100%;
         background-color: var(--background-dark);
         position: absolute;
-        top: 60px; /* Ajuste se o header tiver altura diferente */
+        top: 60px;
         left: 0;
         padding: 1rem 0;
         border-top: 1px solid var(--border-color);
@@ -199,12 +191,10 @@ body::before {
     }
 }
 
-
-/* --- Seções Gerais --- */
 section {
     padding: 100px 0;
-    position: relative; /* Para efeitos de fundo ou paralaxe */
-    z-index: 1; /* Garante que o conteúdo fique acima das estrelas */
+    position: relative;
+    z-index: 1;
 }
 
 .section-title {
@@ -213,7 +203,7 @@ section {
     margin-bottom: 60px;
     color: var(--primary-color);
     position: relative;
-    display: inline-block; /* Para centralizar o pseudo-elemento */
+    display: inline-block;
     width: 100%;
 }
 
@@ -229,7 +219,6 @@ section {
     border-radius: 2px;
 }
 
-/* --- Botões --- */
 .btn {
     display: inline-block;
     padding: 12px 28px;
@@ -282,21 +271,19 @@ section {
     color: var(--background-dark);
 }
 
-/* --- Seção Hero --- */
 .hero-section {
-    min-height: 100vh; /* Ocupa a altura total da viewport */
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    /* Removido background: linear-gradient... */
     position: relative;
-    overflow: hidden; /* Para partículas ou fundos animados com JS */
+    overflow: hidden;
 }
 
 .hero-content {
-    z-index: 2; /* Acima de quaisquer efeitos de fundo */
-    position: relative; /* Para animações de texto */
+    z-index: 2;
+    position: relative;
 }
 
 .hero-title {
@@ -320,11 +307,9 @@ section {
     margin-right: auto;
 }
 
-/* Animações iniciais do Hero (definidas no JS) */
 .animate-text { opacity: 0; transform: translateY(20px); }
 .animate-fade-in { opacity: 0; }
 
-/* --- Seção Sobre Mim --- */
 .about-section {
     background-color: var(--background-light);
 }
@@ -333,7 +318,7 @@ section {
     display: flex;
     align-items: center;
     gap: 40px;
-    flex-wrap: wrap; /* Quebra linha em telas menores */
+    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -366,7 +351,6 @@ section {
     margin-bottom: 15px;
 }
 
-/* Animação para elementos que aparecem ao rolar */
 .animate-on-scroll {
     opacity: 0;
     transform: translateY(50px);
@@ -377,8 +361,6 @@ section {
     transform: translateY(0);
 }
 
-
-/* --- Seção de Projetos --- */
 .projects-section {
     background-color: var(--background-dark);
 }
@@ -396,8 +378,8 @@ section {
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
-    padding-bottom: 20px; /* Para espaço abaixo do texto */
-    position: relative; /* Para efeitos de hover */
+    padding-bottom: 20px;
+    position: relative;
 }
 
 .project-card:hover {
@@ -433,8 +415,6 @@ section {
     padding: 0 20px;
 }
 
-
-/* --- Seção de Habilidades --- */
 .skills-section {
     background-color: var(--background-light);
 }
@@ -459,7 +439,7 @@ section {
 .skill-item:hover {
     transform: translateY(-5px) scale(1.05);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--primary-color); /* Adiciona um destaque no hover */
+    border: 1px solid var(--primary-color);
 }
 
 .skill-item img {
@@ -467,7 +447,7 @@ section {
     height: 60px;
     object-fit: contain;
     margin-bottom: 10px;
-    filter: drop-shadow(0 0 5px var(--accent-color)); /* Efeito para ícones */
+    filter: drop-shadow(0 0 5px var(--accent-color));
 }
 
 .skill-item p {
@@ -475,8 +455,6 @@ section {
     color: var(--text-color-light);
 }
 
-
-/* --- Seção de Contato --- */
 .contact-section {
     background-color: var(--background-dark);
     text-align: center;
@@ -536,7 +514,7 @@ section {
 .form-status {
     margin-top: 15px;
     font-weight: 600;
-    color: var(--primary-color); /* Pode ser verde para sucesso, vermelho para erro */
+    color: var(--primary-color);
 }
 
 .social-links {
@@ -550,16 +528,14 @@ section {
     width: 45px;
     height: 45px;
     transition: transform 0.3s ease, filter 0.3s ease;
-    filter: grayscale(100%); /* Começa em preto e branco */
+    filter: grayscale(100%);
 }
 
 .social-links a img:hover {
     transform: translateY(-5px);
-    filter: grayscale(0%) drop-shadow(0 0 8px var(--primary-color)); /* Colorido e com sombra no hover */
+    filter: grayscale(0%) drop-shadow(0 0 8px var(--primary-color));
 }
 
-
-/* --- Rodapé --- */
 .footer {
     background-color: var(--background-dark);
     color: var(--text-color-dark);
@@ -568,7 +544,6 @@ section {
     border-top: 1px solid var(--border-color);
 }
 
-/* --- Media Queries para Responsividade --- */
 @media (max-width: 992px) {
     .hero-title {
         font-size: 3.5rem;
@@ -605,7 +580,7 @@ section {
         margin-bottom: 20px;
     }
     .projects-grid, .skills-grid {
-        grid-template-columns: 1fr; /* Uma coluna em telas muito pequenas */
+        grid-template-columns: 1fr;
     }
 }
 
