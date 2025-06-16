@@ -1,3 +1,4 @@
+// --- CÓDIGO EXISTENTE DA GALÁXIA ---
 const canvas = document.getElementById('galaxy-canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -43,7 +44,6 @@ function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Desenha um fundo galáctico sutil
     const gradient = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 0, canvas.width / 2, canvas.height / 2, Math.max(canvas.width, canvas.height) / 2);
     gradient.addColorStop(0, '#0b032d');
     gradient.addColorStop(1, '#08021b');
@@ -56,7 +56,7 @@ function animate() {
     });
 }
 
-// Rolagem suave
+// --- CÓDIGO EXISTENTE DA ROLAGEM SUAVE ---
 document.querySelectorAll('nav a').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -67,12 +67,66 @@ document.querySelectorAll('nav a').forEach(anchor => {
     });
 });
 
-initStars();
-animate();
+
+// --- NOVO CÓDIGO PARA O EFEITO DE DIGITAÇÃO ---
+
+const typingElement = document.getElementById('typing-effect');
+// Edite as frases aqui
+const phrasesToType = [
+    "Desenvolvedor em formação.",
+    "Apaixonado por tecnologia.",
+    "Criando soluções com código.",
+    "Sempre aprendendo algo novo."
+];
+let phraseIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+const typingSpeed = 100; // Velocidade de digitação (em ms)
+const erasingSpeed = 50; // Velocidade ao apagar (em ms)
+const delayBetweenPhrases = 2000; // Pausa antes de começar a apagar
+
+function type() {
+    const currentPhrase = phrasesToType[phraseIndex];
+
+    if (isDeleting) {
+        // Apagando
+        typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+    } else {
+        // Escrevendo
+        typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+        charIndex++;
+    }
+
+    // Se a frase foi totalmente escrita
+    if (!isDeleting && charIndex === currentPhrase.length) {
+        isDeleting = true;
+        setTimeout(type, delayBetweenPhrases); // Pausa
+    } 
+    // Se a frase foi totalmente apagada
+    else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrasesToType.length; // Vai para a próxima frase
+        setTimeout(type, typingSpeed);
+    } 
+    // Continua a animação (escrevendo ou apagando)
+    else {
+        const speed = isDeleting ? erasingSpeed : typingSpeed;
+        setTimeout(type, speed);
+    }
+}
+
+// Inicia a animação de fundo e o efeito de digitação
+document.addEventListener('DOMContentLoaded', () => {
+    initStars();
+    animate();
+    setTimeout(type, 1000); // Inicia a digitação após um pequeno atraso
+});
+
 
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    stars = []; // Reinicializa as estrelas para o novo tamanho
+    stars = [];
     initStars();
 });
