@@ -1,0 +1,584 @@
+/* Variáveis CSS para cores e fontes */
+:root {
+    --primary-color: #007bff; /* Azul para destaque */
+    --secondary-color: #6c757d; /* Cinza para elementos secundários */
+    --background-dark: #1a1a2e; /* Fundo escuro principal */
+    --background-light: #2c2c4d; /* Fundo mais claro para seções */
+    --text-color-light: #f0f0f0; /* Texto claro */
+    --text-color-dark: #cccccc; /* Texto secundário */
+    --accent-color: #8be9fd; /* Cor de destaque para animações */
+    --border-color: #4a4a6e; /* Cor para bordas/divisores */
+    --font-family: 'Poppins', sans-serif;
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth; /* Rolagem suave ao clicar em links */
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    color: var(--text-color-light);
+    background-color: var(--background-dark);
+    overflow-x: hidden; /* Evita scroll horizontal indesejado */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Cabeçalho e Navegação --- */
+.header {
+    background-color: rgba(26, 26, 46, 0.9); /* Fundo semi-transparente */
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease; /* Efeito de scroll no JS */
+}
+
+.header.scrolled {
+    background-color: var(--background-dark);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 30px;
+}
+
+.nav-links a {
+    color: var(--text-color-light);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background-color: var(--primary-color);
+    left: 0;
+    bottom: -5px;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after { /* Para indicar a seção atual com JS */
+    width: 100%;
+}
+
+.menu-toggle {
+    display: none; /* Escondido por padrão, para mobile */
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    height: 3px;
+    width: 25px;
+    background-color: var(--text-color-light);
+    margin: 4px 0;
+    transition: all 0.3s ease;
+}
+
+/* Responsividade do Menu */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--background-dark);
+        position: absolute;
+        top: 60px; /* Ajuste se o header tiver altura diferente */
+        left: 0;
+        padding: 1rem 0;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        margin: 10px 0;
+        text-align: center;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+    .menu-toggle.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+}
+
+
+/* --- Seções Gerais --- */
+section {
+    padding: 100px 0;
+    position: relative; /* Para efeitos de fundo ou paralaxe */
+}
+
+.section-title {
+    font-size: 2.8rem;
+    text-align: center;
+    margin-bottom: 60px;
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block; /* Para centralizar o pseudo-elemento */
+    width: 100%;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary-color);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -15px;
+    border-radius: 2px;
+}
+
+/* --- Botões --- */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 1.1rem;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--background-dark);
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: var(--background-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-small {
+    padding: 8px 18px;
+    font-size: 0.9rem;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--accent-color);
+    color: var(--background-dark);
+}
+
+/* --- Seção Hero --- */
+.hero-section {
+    min-height: 100vh; /* Ocupa a altura total da viewport */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-light) 100%);
+    position: relative;
+    overflow: hidden; /* Para partículas ou fundos animados com JS */
+}
+
+.hero-content {
+    z-index: 2; /* Acima de quaisquer efeitos de fundo */
+    position: relative; /* Para animações de texto */
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    color: var(--text-color-light);
+}
+
+.hero-title .highlight {
+    color: var(--primary-color);
+}
+
+.hero-description {
+    font-size: 1.7rem;
+    color: var(--text-color-dark);
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Animações iniciais do Hero (definidas no JS) */
+.animate-text { opacity: 0; transform: translateY(20px); }
+.animate-fade-in { opacity: 0; }
+
+/* --- Seção Sobre Mim --- */
+.about-section {
+    background-color: var(--background-light);
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap; /* Quebra linha em telas menores */
+    justify-content: center;
+}
+
+.about-image {
+    flex: 1;
+    min-width: 280px;
+    text-align: center;
+}
+
+.about-image img {
+    max-width: 300px;
+    border-radius: 50%;
+    border: 5px solid var(--primary-color);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.4);
+    transition: transform 0.5s ease;
+}
+
+.about-image img:hover {
+    transform: scale(1.05);
+}
+
+.about-text {
+    flex: 2;
+    min-width: 300px;
+    font-size: 1.1rem;
+    color: var(--text-color-dark);
+}
+
+.about-text p {
+    margin-bottom: 15px;
+}
+
+/* Animação para elementos que aparecem ao rolar */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --- Seção de Projetos --- */
+.projects-section {
+    background-color: var(--background-dark);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.project-card {
+    background-color: var(--background-light);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    padding-bottom: 20px; /* Para espaço abaixo do texto */
+    position: relative; /* Para efeitos de hover */
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.project-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.project-card h3 {
+    font-size: 1.6rem;
+    margin: 20px 0 10px;
+    color: var(--primary-color);
+}
+
+.project-card p {
+    font-size: 1rem;
+    color: var(--text-color-dark);
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.project-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 0 20px;
+}
+
+
+/* --- Seção de Habilidades --- */
+.skills-section {
+    background-color: var(--background-light);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 30px;
+    justify-items: center;
+    align-items: center;
+}
+
+.skill-item {
+    background-color: var(--background-dark);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-item:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--primary-color); /* Adiciona um destaque no hover */
+}
+
+.skill-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 5px var(--accent-color)); /* Efeito para ícones */
+}
+
+.skill-item p {
+    font-weight: 600;
+    color: var(--text-color-light);
+}
+
+
+/* --- Seção de Contato --- */
+.contact-section {
+    background-color: var(--background-dark);
+    text-align: center;
+}
+
+.contact-description {
+    font-size: 1.2rem;
+    color: var(--text-color-dark);
+    margin-bottom: 40px;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    background-color: var(--background-light);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color-light);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--background-dark);
+    color: var(--text-color-light);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-status {
+    margin-top: 15px;
+    font-weight: 600;
+    color: var(--primary-color); /* Pode ser verde para sucesso, vermelho para erro */
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.social-links a img {
+    width: 45px;
+    height: 45px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: grayscale(100%); /* Começa em preto e branco */
+}
+
+.social-links a img:hover {
+    transform: translateY(-5px);
+    filter: grayscale(0%) drop-shadow(0 0 8px var(--primary-color)); /* Colorido e com sombra no hover */
+}
+
+
+/* --- Rodapé --- */
+.footer {
+    background-color: var(--background-dark);
+    color: var(--text-color-dark);
+    text-align: center;
+    padding: 30px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+/* --- Media Queries para Responsividade --- */
+@media (max-width: 992px) {
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    .hero-description {
+        font-size: 1.4rem;
+    }
+    .section-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 80px 0;
+    }
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    .hero-description {
+        font-size: 1.2rem;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .about-text {
+        margin-top: 20px;
+    }
+    .about-image {
+        margin-bottom: 20px;
+    }
+    .projects-grid, .skills-grid {
+        grid-template-columns: 1fr; /* Uma coluna em telas muito pequenas */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    .hero-description {
+        font-size: 1rem;
+    }
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    .project-card img {
+        height: 180px;
+    }
+}
